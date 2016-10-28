@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html ng-app='myapp'>
+  <head>
+    <meta charset="utf-8">
+    <title>购物车</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  </head>
+  <body>
+    <div  ng-controller='TestController' class='col-md-8'> 
+      <table class='table'>
+          <tr>
+              <th>
+               <label class="checkbox-inline">
+                  <input type="checkbox" id="inlineCheckbox1" ng-model='checkAll' ng-click='check()'> 全选
+                </label>
+              </th>
+              <th>编号</th>
+              <th>商品名</th>
+              <th>单价</th>
+              <th>商品数量</th>
+              <th>小计</th>
+              <th>操作</th>
+          </tr>
+          <tr ng-repeat='shop in carList'>
+            <td>
+               <input type='checkbox' class='checkbox' ng-checked='checkAll' ng-model='shop.ischecked'>
+            </td>
+            <td>{{shop.id}}</td>
+            <td>{{shop.name}}</td>
+            <td>{{shop.price}}</td>
+            <td>
+              <button ng-click='reduce($index)'>-</button>
+             <input type='text' ng-model='shop.num'>
+              <button ng-click='plus($index)'>+</button>
+            </td>
+            <td>{{shop.price*shop.num}}</td>
+            <td><button class='btn btn-danger' ng-click='remove($index)'>删除</button></td>
+          </tr>
+          <tr>
+            <td>总数量</td>
+            <td colspan="2">{{total.num}}</td>
+            <td>总计</td>
+            <td>{{total.price}}</td>
+          </tr>
+      </table>
+    </div>
+  <script src='angular/angular.min.js'></script>
+  <script>
+    //创建模块
+      var app=angular.module('myapp',[]);
+    //创建控制器
+      app.controller('TestController',function($scope){
+          $scope.carList=[
+            {id: 1,name: 'apple',price:2,num:3},
+            {id: 2,name: 'banna',price:3,num:5},
+            {id: 3,name: 'meizi',price:4,num:1},
+            {id: 4,name: 'peer',price:1,num:9}   
+          ]
+          //数量减
+          $scope.reduce=function(index){
+              $scope.carList[index].num--;
+              if($scope.carList[index].num<0) $scope.carList[index].num=0;
+          }
+           //数量加
+          $scope.plus=function(index){
+              $scope.carList[index].num++;
+          }
+          //删除
+          $scope.remove=function(index){
+            $scope.carList.splice(index,1);
+          }
+          $scope.$watch('carList',function(){
+            $scope.total={
+              price:0,
+              num: 0
+          }
+            angular.forEach($scope.carList,function(value,key){
+              if(value.ischecked){
+                $scope.total.num+=value.num;
+                $scope.total.price+=value.num*value.price
+              }           
+           })
+          },true)
+          //全选，全不选
+          $scope.check=function(){
+              angular.forEach($scope.carList,function(value,key){
+                    value.ischecked=$scope.checkAll;
+              })
+          }
+      });    
+  </script>
+  </body>
+</html>

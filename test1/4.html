@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="angular/angular.min.js"></script>
+</head>
+
+<body>
+    <div ng-controller="TestController">
+        <input type='text' ng-model='name'>
+        <h2 ng-bind='sum'></h2>
+    </div>
+    <script>
+    // 1.新建模块
+    var app = angular.module('myApp', []);
+
+    app.controller('TestController',function($scope){
+          $scope.arr=[2,3,4,5];
+          $scope.sum=0;
+          angular.forEach($scope.arr,function(value,key){
+                    $scope.sum+=value;
+          })
+    })
+    </script>
+</body>
+
+</html>

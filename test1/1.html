@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app='myapp'>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  </head>
+  <body>
+    <jack></jack> 
+    <rose></rose>
+    <xia></xia>
+    <da></da>
+    <h2 da></h2>
+    <h3 class='da'></h3>
+    <!-- directive:da -->
+  <script src='angular/angular.min.js'></script>
+  <script>
+    //创建模块
+      var app=angular.module('myapp',[]);
+    //创建自定义指令
+      app.directive('jack',function(){
+          return{
+            template:'<p>这是自定义标签</p>'
+          }
+      });
+      app.directive('rose',function(){
+          return {
+              template: '<p>rose</p>',
+              replace: true
+          }
+      });
+      app.directive('xia',function(){
+          return{
+              templateUrl: '11.html',
+              replace: true
+          }
+      });
+      app.directive('da',function(){
+        return {
+          template: '<h2>restrict</h2>',
+          replace: true,
+          restrict: 'EACM'
+        }
+      })
+  </script>
+  </body>
+</html>
